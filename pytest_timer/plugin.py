@@ -83,4 +83,8 @@ def pytest_terminal_summary(terminalreporter):
             time_taken=result.duration,
             timer_no_color=tr.config.option.timer_no_color,
         )
-        tr.write_line(f"[{result.result}] {result.nodeid}: {duration}")
+        tr.write_line("[{result}] {nodeid}: {duration}".format(
+            result=result.result,
+            nodeid=result.nodeid,
+            duration=duration,
+        ))
