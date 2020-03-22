@@ -62,6 +62,15 @@ def pytest_addoption(parser):
             help="Don't colorize output (useful for non-tty output).",
         )
 
+        group.addoption(
+            "--timer-top-n",
+            action="store",
+            default=0,
+            type=int,
+            dest="timer_top_n",
+            help="Show N slowest tests only. The default, -1, shows all tests.",
+        )
+
 
 def pytest_terminal_summary(terminalreporter):
     tr = terminalreporter
@@ -77,8 +86,13 @@ def pytest_terminal_summary(terminalreporter):
                     )
                 )
 
-    tr.write_sep("=", "pytest-timer")
-    for result in sorted(results, key=attrgetter('duration'), reverse=True):
+    tr.write_sep('=', 'pytest-timer')
+    result = list(sorted(results, key=attrgetter('duration'), reverse=True))
+    timer_top_n = tr.config.option.timer_top_n
+    if timer_top_n:
+        result = result[:timer_top_n]
+
+    for result in result:
         duration = _colored_time(
             time_taken=result.duration,
             timer_no_color=tr.config.option.timer_no_color,

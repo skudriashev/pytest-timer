@@ -1,29 +1,32 @@
 # pytest-timer
 Porting of [nose-timer](https://github.com/mahmoudimus/nose-timer) plugin for pytest. A timer plugin for pytest (how much time does every test take?).
 
-
 [![Build Status](https://travis-ci.org/skudriashev/pytest-timer.svg?branch=master)](https://travis-ci.org/skudriashev/pytest-timer)
 
 ## Install
 
 To install the latest release from PyPI:
-
-    pip install pytest-timer
+```
+pip install pytest-timer
+```
 
 Or to install the latest development version from Git:
-
-    pip install git+git://github.com/skudriashev/pytest-timer.git
+```
+pip install git+git://github.com/skudriashev/pytest-timer.git
+```
 
 Or to install the latest from source:
-
-    git clone https://github.com/skudriashev/pytest-timer.git
-    cd pytest-timer
-    pip install .
+```
+git clone https://github.com/skudriashev/pytest-timer.git
+cd pytest-timer
+pip install .
+```
 
 You can also make a developer install if you plan on modifying the
 source frequently:
-
-    pip install -e .
+```
+pip install -e .
+```
 
 
 ## Usage
@@ -36,6 +39,12 @@ After installing `pytest-timer` plugin the following report will be added:
 [success] tests/test_plugin.py::TestPlugin::test_loaded: 0.0002s
 ```
 
+### How do I show only the `n` slowest tests?
+
+For example, to show only the **10** slowest tests, run pytest with the `--timer-top-n` flag:
+```
+nosetests --with-timer --timer-top-n 10
+```
 
 ## License
 
