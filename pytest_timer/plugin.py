@@ -78,7 +78,7 @@ def pytest_terminal_summary(terminalreporter):
                 )
 
     tr.write_sep("=", "pytest-timer")
-    for result in sorted(results, key=attrgetter('duration')):
+    for result in sorted(results, key=attrgetter('duration'), reverse=True):
         duration = _colored_time(
             time_taken=result.duration,
             timer_no_color=tr.config.option.timer_no_color,
