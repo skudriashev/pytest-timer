@@ -16,6 +16,7 @@ setup(
     version=version,
     description='A timer plugin for pytest',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     author=', '.join([
         'Stanislav Kudriashev',
     ]),
