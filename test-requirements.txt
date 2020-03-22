@@ -1,3 +1,4 @@
+parameterized
 pytest-cov
 pytest
 termcolor
