@@ -25,6 +25,10 @@ setup(
     install_requires=[
         'pytest',
     ],
+    extras_require={
+        'termcolor': ['termcolor'],
+        'colorama': ['colorama'],
+    },
     license='MIT',
     entry_points={"pytest11": ["name_of_plugin = pytest_timer.plugin"]},
     classifiers=[

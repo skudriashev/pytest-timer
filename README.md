@@ -10,6 +10,16 @@ To install the latest release from PyPI:
 pip install pytest-timer
 ```
 
+To install `pytest-timer` with `termcolor` for colored durations:
+```
+pip install pytest-timer[termcolor]
+```
+
+To install `pytest-timer` with `colorama` for colored durations:
+```
+pip install pytest-timer[colorama]
+```
+
 Or to install the latest development version from Git:
 ```
 pip install git+git://github.com/skudriashev/pytest-timer.git
