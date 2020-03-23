@@ -12,3 +12,6 @@ class TestPlugin:
     ])
     def test_get_result_color(self, time_taken, color):
         assert _get_result_color(time_taken) == color
+
+    def test_colored_time(self):
+        pass
