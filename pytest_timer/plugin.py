@@ -75,6 +75,7 @@ def pytest_addoption(parser):
 def pytest_terminal_summary(terminalreporter):
     tr = terminalreporter
     results = []
+    total_time = 0
     for reports in tr.stats.values():
         for rep in (r for r in reports if r.when == 'call'):
             if hasattr(rep, 'duration'):
@@ -85,6 +86,7 @@ def pytest_terminal_summary(terminalreporter):
                         duration=rep.duration,
                     )
                 )
+                total_time += rep.duration
 
     tr.write_sep('=', 'pytest-timer')
     result = list(sorted(results, key=attrgetter('duration'), reverse=True))
@@ -97,8 +99,10 @@ def pytest_terminal_summary(terminalreporter):
             time_taken=result.duration,
             timer_no_color=tr.config.option.timer_no_color,
         )
-        tr.write_line("[{result}] {nodeid}: {duration}".format(
+        percent = 0 if total_time == 0 else result.duration / total_time * 100
+        tr.write_line("[{result}] {percent:04.2f}% {nodeid}: {duration}".format(
             result=result.result,
+            percent=percent,
             nodeid=result.nodeid,
             duration=duration,
         ))
