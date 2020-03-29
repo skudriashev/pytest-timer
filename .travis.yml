@@ -14,7 +14,7 @@ matrix:
   - python: pypy3
     env: TOXENV=pypy3
 install:
-- pip install tox
+- pip install codecov tox
 script:
 - tox
 deploy:
@@ -26,3 +26,5 @@ deploy:
     python: 3.8
     tags: true
     repo: skudriashev/pytest-timer
+after_success:
+  codecov
