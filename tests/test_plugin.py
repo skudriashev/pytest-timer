@@ -1,8 +1,10 @@
+from _pytest.config.argparsing import Parser
 from parameterized import parameterized
 
 from pytest_timer.plugin import (
     _colored_time,
     _get_result_color,
+    pytest_addoption,
 )
 
 
@@ -25,3 +27,12 @@ class TestPlugin:
     ])
     def test_colored_time(self, time_taken, timer_no_color, expected_result):
         assert _colored_time(time_taken, timer_no_color) == expected_result
+
+    def test_pytest_addoption(self):
+        parser = Parser()
+
+        pytest_addoption(parser)
+
+        options = parser.getgroup("terminal reporting").options
+        assert options[0].names() == ['--timer-no-color']
+        assert options[1].names() == ['--timer-top-n']
