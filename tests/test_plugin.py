@@ -19,14 +19,16 @@ class TestPlugin:
         assert _get_result_color(time_taken) == color
 
     @parameterized.expand([
-        (1.000, False, '\x1b[32m1.0000s\x1b[0m'),
-        (1.001, False, '\x1b[33m1.0010s\x1b[0m'),
-        (3.000, False, '\x1b[33m3.0000s\x1b[0m'),
-        (3.001, False, '\x1b[31m3.0010s\x1b[0m'),
-        (3.001, True, '3.0010s'),
+        ('green', 1.000, False, '\x1b[32m1.0000s\x1b[0m'),
+        ('yellow', 1.001, False, '\x1b[33m1.0010s\x1b[0m'),
+        ('yellow', 3.000, False, '\x1b[33m3.0000s\x1b[0m'),
+        ('red', 3.001, False, '\x1b[31m3.0010s\x1b[0m'),
+        ('red', 3.001, True, '3.0010s'),
     ])
-    def test_colored_time(self, time_taken, timer_no_color, expected_result):
-        assert _colored_time(time_taken, timer_no_color) == expected_result
+    def test_colored_time(self, color, time_taken, timer_no_color, expected_result):
+        import time
+        time.sleep(1)
+        assert _colored_time(color, time_taken, timer_no_color) == expected_result
 
     def test_pytest_addoption(self):
         parser = Parser()
@@ -34,5 +36,6 @@ class TestPlugin:
         pytest_addoption(parser)
 
         options = parser.getgroup("terminal reporting").options
-        assert options[0].names() == ['--timer-no-color']
-        assert options[1].names() == ['--timer-top-n']
+        assert options[0].names() == ['--timer-top-n']
+        assert options[1].names() == ['--timer-no-color']
+        assert options[2].names() == ['--timer-filter']

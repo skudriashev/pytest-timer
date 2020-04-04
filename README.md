@@ -63,6 +63,20 @@ nosetests --with-timer --timer-top-n 10
 In some cases, you may want to disable colors completely. This is done by using the `--timer-no-color` flag.
 This is useful when running tests in a headless console.
 
+### How do I filter results by colors?
+
+It is possible to filter results by color. To do so, you can use the `--timer-filter` flag:
+```
+nosetests --with-timer --timer-filter ok
+nosetests --with-timer --timer-filter warning
+nosetests --with-timer --timer-filter error
+```
+
+Or to apply several filters at once:
+```
+nosetests --with-timer --timer-filter warning,error
+```
+
 ## License
 
 ``pytest-timer`` is MIT Licensed library.
