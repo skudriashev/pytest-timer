@@ -26,8 +26,6 @@ class TestPlugin:
         ('red', 3.001, True, '3.0010s'),
     ])
     def test_colored_time(self, color, time_taken, timer_no_color, expected_result):
-        import time
-        time.sleep(1)
         assert _colored_time(color, time_taken, timer_no_color) == expected_result
 
     def test_pytest_addoption(self):
