@@ -58,6 +58,11 @@ For example, to show only the **10** slowest tests, run pytest with the `--timer
 nosetests --with-timer --timer-top-n 10
 ```
 
+### How do I turn off pretty colors?
+
+In some cases, you may want to disable colors completely. This is done by using the `--timer-no-color` flag.
+This is useful when running tests in a headless console.
+
 ## License
 
 ``pytest-timer`` is MIT Licensed library.
