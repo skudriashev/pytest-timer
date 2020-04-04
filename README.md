@@ -1,6 +1,7 @@
 # pytest-timer
 Porting of [nose-timer](https://github.com/mahmoudimus/nose-timer) plugin for pytest. A timer plugin for pytest (how much time does every test take?).
 
+[![PyPI version](https://badge.fury.io/py/pytest-timer.svg)](https://badge.fury.io/py/pytest-timer)
 [![Build Status](https://travis-ci.org/skudriashev/pytest-timer.svg?branch=master)](https://travis-ci.org/skudriashev/pytest-timer)
 [![codecov](https://codecov.io/gh/skudriashev/pytest-timer/branch/master/graph/badge.svg)](https://codecov.io/gh/skudriashev/pytest-timer)
 
