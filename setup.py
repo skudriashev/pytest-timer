@@ -9,7 +9,7 @@ with open("README.md") as f:
     long_description = f.read()
 
 with open("pytest_timer/__init__.py") as f:
-    version = re.search(r"__version__ = \'(.*?)\'", f.read()).group(1)
+    version = re.search(r"__version__ = \"(.*?)\"", f.read()).group(1)
 
 setup(
     name="pytest-timer",
