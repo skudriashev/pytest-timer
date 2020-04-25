@@ -26,5 +26,6 @@ deploy:
     python: 3.8
     tags: true
     repo: skudriashev/pytest-timer
+    skip_cleanup: true
 after_success:
   codecov
