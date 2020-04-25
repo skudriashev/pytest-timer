@@ -5,8 +5,8 @@ from operator import attrgetter
 
 try:
     import termcolor
-except ImportError:
-    termcolor = None  # noqa
+except ImportError:  # pragma: no cover
+    termcolor = None  # pragma: no cover
 
 try:
     import colorama
@@ -15,8 +15,8 @@ try:
         'yellow': colorama.Fore.YELLOW,
         'red': colorama.Fore.RED,
     }
-except ImportError:
-    colorama = None
+except ImportError:  # pragma: no cover
+    colorama = None  # pragma: no cover
 
 # define constants
 IS_NT = os.name == 'nt'

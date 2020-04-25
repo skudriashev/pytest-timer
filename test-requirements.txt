@@ -1,4 +1,6 @@
+colorama
 parameterized
-pytest-cov
 pytest
+pytest-cov
+pytest-mock
 termcolor
