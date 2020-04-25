@@ -4,6 +4,9 @@ black:
 black-check:
 	black --check .
 
+deps:
+	pip install -r dev-requirements.txt
+
 lint:
 	flake8
 	black --check .
