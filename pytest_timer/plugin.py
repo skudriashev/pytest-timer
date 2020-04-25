@@ -10,29 +10,30 @@ except ImportError:  # pragma: no cover
 
 try:
     import colorama
+
     TERMCOLOR2COLORAMA = {
-        'green': colorama.Fore.GREEN,
-        'yellow': colorama.Fore.YELLOW,
-        'red': colorama.Fore.RED,
+        "green": colorama.Fore.GREEN,
+        "yellow": colorama.Fore.YELLOW,
+        "red": colorama.Fore.RED,
     }
 except ImportError:  # pragma: no cover
     colorama = None  # pragma: no cover
 
 # define constants
-IS_NT = os.name == 'nt'
+IS_NT = os.name == "nt"
 
-Result = namedtuple('Result', ['nodeid', 'result', 'color', 'duration'])
+Result = namedtuple("Result", ["nodeid", "result", "color", "duration"])
 
 
 def _get_result_color(time_taken):
     """Get time taken result color."""
     time_taken_ms = time_taken * 1000
     if time_taken_ms <= 1000:
-        color = 'green'
+        color = "green"
     elif time_taken_ms <= 3000:
-        color = 'yellow'
+        color = "yellow"
     else:
-        color = 'red'
+        color = "red"
 
     return color
 
@@ -82,22 +83,26 @@ def pytest_addoption(parser):
 
 def pytest_terminal_summary(terminalreporter):
     tr = terminalreporter
-    tr.write_sep('=', 'pytest-timer')
+    tr.write_sep("=", "pytest-timer")
 
-    timer_filter = tr.config.option.timer_filter.split(',') if tr.config.option.timer_filter is not None else None
+    timer_filter = (
+        tr.config.option.timer_filter.split(",")
+        if tr.config.option.timer_filter is not None
+        else None
+    )
     timer_top_n = tr.config.option.timer_top_n
 
     results = []
     total_time = 0
     for reports in tr.stats.values():
-        for rep in (r for r in reports if r.when == 'call'):
-            if hasattr(rep, 'duration'):
+        for rep in (r for r in reports if r.when == "call"):
+            if hasattr(rep, "duration"):
                 duration = rep.duration
                 color = _get_result_color(time_taken=duration)
                 results.append(
                     Result(
                         nodeid=rep.nodeid,
-                        result='success' if rep.passed else 'fail',
+                        result="success" if rep.passed else "fail",
                         color=color,
                         duration=duration,
                     )
@@ -105,16 +110,14 @@ def pytest_terminal_summary(terminalreporter):
                 total_time += rep.duration
 
     shown = 0
-    for result in list(sorted(results, key=attrgetter('duration'), reverse=True)):
+    for result in list(sorted(results, key=attrgetter("duration"), reverse=True)):
         if timer_top_n and shown >= timer_top_n:
             break
 
         if timer_filter is not None:
-            filter_name = {
-                'green': 'ok',
-                'yellow': 'warning',
-                'red': 'error',
-            }.get(result.color)
+            filter_name = {"green": "ok", "yellow": "warning", "red": "error"}.get(
+                result.color
+            )
             if timer_filter is not None and filter_name not in timer_filter:
                 continue
 
@@ -124,10 +127,12 @@ def pytest_terminal_summary(terminalreporter):
             timer_no_color=tr.config.option.timer_no_color,
         )
         percent = 0 if total_time == 0 else result.duration / total_time * 100
-        tr.write_line("[{result}] {percent:04.2f}% {nodeid}: {duration}".format(
-            result=result.result,
-            percent=percent,
-            nodeid=result.nodeid,
-            duration=duration,
-        ))
+        tr.write_line(
+            "[{result}] {percent:04.2f}% {nodeid}: {duration}".format(
+                result=result.result,
+                percent=percent,
+                nodeid=result.nodeid,
+                duration=duration,
+            )
+        )
         shown += 1

@@ -5,12 +5,6 @@ from parameterized import parameterized
 from pytest import fixture
 
 from pytest_timer import plugin
-from pytest_timer.plugin import (
-    _colored_time,
-    _get_result_color,
-    pytest_addoption,
-    pytest_terminal_summary,
-)
 
 
 @fixture
@@ -20,98 +14,111 @@ def tr_mock(mocker):
     tr_mock.config.option.timer_filter = None
     tr_mock.stats.values.return_value = [
         [
-            mocker.Mock(when='call', nodeid='1', duration=3.01),
-            mocker.Mock(when='call', nodeid='2', duration=1.01),
-            mocker.Mock(when='call', nodeid='3', duration=0.99),
+            mocker.Mock(when="call", nodeid="1", duration=3.01),
+            mocker.Mock(when="call", nodeid="2", duration=1.01),
+            mocker.Mock(when="call", nodeid="3", duration=0.99),
         ],
     ]
     return tr_mock
 
 
 class TestPlugin:
-
-    @parameterized.expand([
-        (1.000, 'green'),
-        (1.001, 'yellow'),
-        (3.000, 'yellow'),
-        (3.001, 'red'),
-    ])
+    @parameterized.expand(
+        [(1.000, "green"), (1.001, "yellow"), (3.000, "yellow"), (3.001, "red")]
+    )
     def test_get_result_color(self, time_taken, color):
-        assert _get_result_color(time_taken) == color
+        assert plugin._get_result_color(time_taken) == color
 
-    @parameterized.expand([
-        ('green', 1.000, False, '\x1b[32m1.0000s\x1b[0m'),
-        ('yellow', 1.001, False, '\x1b[33m1.0010s\x1b[0m'),
-        ('yellow', 3.000, False, '\x1b[33m3.0000s\x1b[0m'),
-        ('red', 3.001, False, '\x1b[31m3.0010s\x1b[0m'),
-        ('red', 3.001, True, '3.0010s'),
-    ])
+    @parameterized.expand(
+        [
+            ("green", 1.000, False, "\x1b[32m1.0000s\x1b[0m"),
+            ("yellow", 1.001, False, "\x1b[33m1.0010s\x1b[0m"),
+            ("yellow", 3.000, False, "\x1b[33m3.0000s\x1b[0m"),
+            ("red", 3.001, False, "\x1b[31m3.0010s\x1b[0m"),
+            ("red", 3.001, True, "3.0010s"),
+        ]
+    )
     def test_colored_time(self, color, time_taken, timer_no_color, expected_result):
-        assert _colored_time(color, time_taken, timer_no_color) == expected_result
+        assert (
+            plugin._colored_time(color, time_taken, timer_no_color) == expected_result
+        )
 
-    @parameterized.expand([
-        ('green', 1.000, False, '\x1b[32m1.0000s\x1b[0m'),
-        ('yellow', 1.001, False, '\x1b[33m1.0010s\x1b[0m'),
-        ('yellow', 3.000, False, '\x1b[33m3.0000s\x1b[0m'),
-        ('red', 3.001, False, '\x1b[31m3.0010s\x1b[0m'),
-        ('red', 3.001, True, '3.0010s'),
-    ])
-    def test_colored_time_colorama(self, color, time_taken, timer_no_color, expected_result):
-        with mock.patch.object(plugin, 'termcolor', None):
-            assert _colored_time(color, time_taken, timer_no_color) == expected_result
+    @parameterized.expand(
+        [
+            ("green", 1.000, False, "\x1b[32m1.0000s\x1b[0m"),
+            ("yellow", 1.001, False, "\x1b[33m1.0010s\x1b[0m"),
+            ("yellow", 3.000, False, "\x1b[33m3.0000s\x1b[0m"),
+            ("red", 3.001, False, "\x1b[31m3.0010s\x1b[0m"),
+            ("red", 3.001, True, "3.0010s"),
+        ]
+    )
+    def test_colored_time_colorama(
+        self, color, time_taken, timer_no_color, expected_result
+    ):
+        with mock.patch.object(plugin, "termcolor", None):
+            assert (
+                plugin._colored_time(color, time_taken, timer_no_color)
+                == expected_result
+            )
 
     def test_pytest_addoption(self):
         parser = Parser()
 
-        pytest_addoption(parser)
+        plugin.pytest_addoption(parser)
 
         options = parser.getgroup("terminal reporting").options
-        assert options[0].names() == ['--timer-top-n']
-        assert options[1].names() == ['--timer-no-color']
-        assert options[2].names() == ['--timer-filter']
+        assert options[0].names() == ["--timer-top-n"]
+        assert options[1].names() == ["--timer-no-color"]
+        assert options[2].names() == ["--timer-filter"]
 
     def test_pytest_terminal_summary(self, mocker, tr_mock):
-        pytest_terminal_summary(terminalreporter=tr_mock)
+        plugin.pytest_terminal_summary(terminalreporter=tr_mock)
 
-        tr_mock.write_line.assert_has_calls([
-            mocker.call('[success] 60.08% 1: 3.0100s'),
-            mocker.call('[success] 20.16% 2: 1.0100s'),
-            mocker.call('[success] 19.76% 3: 0.9900s'),
-        ])
+        tr_mock.write_line.assert_has_calls(
+            [
+                mocker.call("[success] 60.08% 1: 3.0100s"),
+                mocker.call("[success] 20.16% 2: 1.0100s"),
+                mocker.call("[success] 19.76% 3: 0.9900s"),
+            ]
+        )
 
     def test_pytest_terminal_summary_with_timer_top_n(self, mocker, tr_mock):
         tr_mock.config.option.timer_top_n = 1
 
-        pytest_terminal_summary(terminalreporter=tr_mock)
+        plugin.pytest_terminal_summary(terminalreporter=tr_mock)
 
-        tr_mock.write_line.assert_has_calls([
-            mocker.call('[success] 60.08% 1: 3.0100s'),
-        ])
+        tr_mock.write_line.assert_has_calls(
+            [mocker.call("[success] 60.08% 1: 3.0100s")]
+        )
 
     def test_pytest_terminal_summary_with_timer_filter_error(self, mocker, tr_mock):
-        tr_mock.config.option.timer_filter = 'error'
+        tr_mock.config.option.timer_filter = "error"
 
-        pytest_terminal_summary(terminalreporter=tr_mock)
+        plugin.pytest_terminal_summary(terminalreporter=tr_mock)
 
-        tr_mock.write_line.assert_has_calls([
-            mocker.call('[success] 60.08% 1: 3.0100s'),
-        ])
+        tr_mock.write_line.assert_has_calls(
+            [mocker.call("[success] 60.08% 1: 3.0100s")]
+        )
 
     def test_pytest_terminal_summary_with_timer_filter_warning(self, mocker, tr_mock):
-        tr_mock.config.option.timer_filter = 'warning'
+        tr_mock.config.option.timer_filter = "warning"
 
-        pytest_terminal_summary(terminalreporter=tr_mock)
+        plugin.pytest_terminal_summary(terminalreporter=tr_mock)
 
-        tr_mock.write_line.assert_has_calls([
-            mocker.call('[success] 20.16% 2: 1.0100s'),
-        ])
+        tr_mock.write_line.assert_has_calls(
+            [mocker.call("[success] 20.16% 2: 1.0100s")]
+        )
 
-    def test_pytest_terminal_summary_with_timer_filter_error_warning(self, mocker, tr_mock):
-        tr_mock.config.option.timer_filter = 'error,warning'
+    def test_pytest_terminal_summary_with_timer_filter_error_warning(
+        self, mocker, tr_mock
+    ):
+        tr_mock.config.option.timer_filter = "error,warning"
 
-        pytest_terminal_summary(terminalreporter=tr_mock)
+        plugin.pytest_terminal_summary(terminalreporter=tr_mock)
 
-        tr_mock.write_line.assert_has_calls([
-            mocker.call('[success] 60.08% 1: 3.0100s'),
-            mocker.call('[success] 20.16% 2: 1.0100s'),
-        ])
+        tr_mock.write_line.assert_has_calls(
+            [
+                mocker.call("[success] 60.08% 1: 3.0100s"),
+                mocker.call("[success] 20.16% 2: 1.0100s"),
+            ]
+        )
