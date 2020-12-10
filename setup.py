@@ -18,7 +18,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     author=", ".join(["Stanislav Kudriashev"]),
-    url="https://https://github.com/skudriashev/pytest-timer",
+    url="https://github.com/skudriashev/pytest-timer",
     packages=["pytest_timer"],
     install_requires=["pytest"],
     extras_require={"termcolor": ["termcolor"], "colorama": ["colorama"]},
