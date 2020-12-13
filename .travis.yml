@@ -1,9 +1,9 @@
 language: python
 matrix:
   include:
-  - python: 3.7
+  - python: 3.9
     env: TOXENV=pep8
-  - python: 3.7
+  - python: 3.9
     env: TOXENV=black
   - python: 3.5
     env: TOXENV=py35
@@ -13,6 +13,8 @@ matrix:
     env: TOXENV=py37
   - python: 3.8
     env: TOXENV=py38
+  - python: 3.9
+    env: TOXENV=py39
 install:
   - pip install codecov tox
 script:
@@ -23,7 +25,7 @@ deploy:
   password:
     secure: sAFXuZw7wJUgb++LgIRQWS2QDs0fEMjlj5/AqRyABE6hMfhHlPEfF/5xmMaV5m23hNmWFd7nhCN1LOZfrSb1rgInm3rHYc3Jc9yPgo+/qOOplht+PjnaijVmyj0C8+8ifUV/QXn/hvjZK7iACEb+vbpvIdn07VsCCk5PBQwEaNfwRd0ZJ+3AQoS/hxVqYSyXn/0zLChOIyvLL/2P70gtlwIo6O8sXQxDiazoFOR7sUmMw1xCjSh/i1lfzJvDYEu+TtQAmMs2KVR0UdTBSvzWlI4bb8rMcTE8+27ROkRR8uqr0qG05J1f5YphjjYq4V+evXV5tszt6U799rbTSEGDwlkoJq+bM64F7LS1hVGEUBKgfnLv7Hx1n9fgrWvYDUDCS0wCxcfZfSDw+4C+1PLa+MRWor/2tGmMd/3sabhTW6wTVWzkyRDqgN4eA9eals/a+rmqzeW6Itb/NMcqFZExOwEcLzASrXrdVK9dbYXdSiZ3GWKMUVRslNImQyUyjzHDQFdfEKTwQK80aIOcme/zn6C1px3S9g1bcke3FtU1pinTjNu46zXgfO6WQjILROJBB8cZqsrB23Qcai8OLGxtv9y4y0dwY86k6LdqnOlIKodXqfEj7iRrCzoGOlOaPPd3R11Xd0N5M/FRJqnkSYUgi4LHWxcW44kZd3VIOt5kjM4=
   on:
-    python: 3.8
+    python: 3.9
     tags: true
     repo: skudriashev/pytest-timer
 after_success:
