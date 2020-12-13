@@ -12,13 +12,16 @@ def tr_mock(mocker):
     tr_mock = mocker.Mock()
     tr_mock.config.option.timer_top_n = None
     tr_mock.config.option.timer_filter = None
-    tr_mock.stats.values.return_value = [
-        [
+    tr_mock.stats = {
+        "passed": [
             mocker.Mock(when="call", nodeid="1", duration=3.01),
             mocker.Mock(when="call", nodeid="2", duration=1.01),
             mocker.Mock(when="call", nodeid="3", duration=0.99),
         ],
-    ]
+        "deselected": [
+            mocker.Mock(when="call", nodeid="4", duration=1.00),
+        ],
+    }
     return tr_mock
 
 

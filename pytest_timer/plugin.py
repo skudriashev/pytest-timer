@@ -94,7 +94,10 @@ def pytest_terminal_summary(terminalreporter):
 
     results = []
     total_time = 0
-    for reports in tr.stats.values():
+    for report_type, reports in tr.stats.items():
+        # no need to report deselected tests (-k EXPRESSION)
+        if report_type == "deselected":
+            continue
         for rep in (r for r in reports if r.when == "call"):
             if hasattr(rep, "duration"):
                 duration = rep.duration
