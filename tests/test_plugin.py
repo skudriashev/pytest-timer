@@ -1,3 +1,4 @@
+import warnings
 from unittest import mock
 
 from _pytest.config.argparsing import Parser
@@ -123,5 +124,18 @@ class TestPlugin:
             [
                 mocker.call("[success] 60.08% 1: 3.0100s"),
                 mocker.call("[success] 20.16% 2: 1.0100s"),
+            ]
+        )
+
+    def test_pytest_terminal_summary_with_user_warning(self, mocker, tr_mock):
+        warnings.warn("Test Warning to be used in tests")
+
+        plugin.pytest_terminal_summary(terminalreporter=tr_mock)
+
+        tr_mock.write_line.assert_has_calls(
+            [
+                mocker.call("[success] 60.08% 1: 3.0100s"),
+                mocker.call("[success] 20.16% 2: 1.0100s"),
+                mocker.call("[success] 19.76% 3: 0.9900s"),
             ]
         )

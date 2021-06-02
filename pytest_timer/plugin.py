@@ -98,7 +98,7 @@ def pytest_terminal_summary(terminalreporter):
         # no need to report deselected tests (-k EXPRESSION)
         if report_type == "deselected":
             continue
-        for rep in (r for r in reports if r.when == "call"):
+        for rep in (r for r in reports if getattr(r, "when", None) == "call"):
             if hasattr(rep, "duration"):
                 duration = rep.duration
                 color = _get_result_color(time_taken=duration)
