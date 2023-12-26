@@ -56,7 +56,7 @@ After installing `pytest-timer` plugin the following report will be added:
 
 For example, to show only the **10** slowest tests, run pytest with the `--timer-top-n` flag:
 ```
-pytest --with-timer --timer-top-n 10
+pytest --timer-top-n 10
 ```
 
 ### How do I turn off pretty colors?
@@ -68,14 +68,14 @@ This is useful when running tests in a headless console.
 
 It is possible to filter results by color. To do so, you can use the `--timer-filter` flag:
 ```
-pytest --with-timer --timer-filter ok
-pytest --with-timer --timer-filter warning
-pytest --with-timer --timer-filter error
+pytest --timer-filter ok
+pytest --timer-filter warning
+pytest --timer-filter error
 ```
 
 Or to apply several filters at once:
 ```
-pytest --with-timer --timer-filter warning,error
+pytest --timer-filter warning,error
 ```
 
 ## License
