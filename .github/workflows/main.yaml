@@ -14,8 +14,20 @@ jobs:
         run: pip install tox
       - name: Run pep8
         run: tox -e pep8
+  black:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
+      - name: Install tox
+        run: pip install tox
+      - name: Run black
+        run: tox -e black
   test:
-    needs: ["lint"]
+    needs: ["lint", "black"]
     runs-on: ubuntu-latest
     strategy:
       matrix:
