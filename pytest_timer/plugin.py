@@ -45,7 +45,7 @@ def _colored_time(color, time_taken, timer_no_color=False):
         return val
 
     if termcolor is not None:
-        val = termcolor.colored(val, color)
+        val = termcolor.colored(val, color, force_color=True)
     elif colorama is not None:
         val = TERMCOLOR2COLORAMA[color] + val + colorama.Style.RESET_ALL
     return val
