@@ -3,7 +3,7 @@ Porting of [nose-timer](https://github.com/mahmoudimus/nose-timer) plugin for py
 
 [![PyPI version](https://badge.fury.io/py/pytest-timer.svg)](https://badge.fury.io/py/pytest-timer)
 ![Build Status](https://github.com/skudriashev/pytest-timer/actions/workflows/main.yaml/badge.svg?branch=main)
-[![codecov](https://codecov.io/gh/skudriashev/pytest-timer/branch/master/graph/badge.svg)](https://codecov.io/gh/skudriashev/pytest-timer)
+[![codecov](https://codecov.io/gh/skudriashev/pytest-timer/branch/main/graph/badge.svg)](https://codecov.io/gh/skudriashev/pytest-timer)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 ## Install
